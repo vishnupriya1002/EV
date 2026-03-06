@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EV Charging Slot Booking System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="top-nav">
+      <div class="brand">VoltBook</div>
+      <a class="btn btn-outline" href="#booking">Book Slot</a>
+    </nav>
+    <div class="hero-content">
+      <div>
+        <p class="tag">EV Charging Slot Booking System</p>
+        <h1>Book Smarter, Charge Faster, Drive Longer</h1>
+        <p class="subtitle">
+          Real-time charger visibility, AI waiting-time prediction, intelligent queueing, and route-aware charging planning in one modern dashboard.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#booking">Reserve Charging Slot</a>
+          <a class="btn btn-secondary" href="#live-status">View Charger Status</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <h3>Live Grid Snapshot</h3>
+        <div class="mini-grid">
+          <div><span class="dot available"></span>Available <strong id="countAvailable">0</strong></div>
+          <div><span class="dot charging"></span>Charging <strong id="countCharging">0</strong></div>
+          <div><span class="dot reserved"></span>Reserved <strong id="countReserved">0</strong></div>
+          <div><span class="dot outage"></span>Out of Service <strong id="countOutage">0</strong></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="booking" class="card">
+      <h2>1. Vehicle Slot Booking</h2>
+      <form id="bookingForm" class="grid-form">
+        <label>Car Number
+          <input type="text" id="carNumber" placeholder="e.g. MH12AB1234" required>
+        </label>
+        <label>Charging Station
+          <select id="station" required></select>
+        </label>
+        <label>Date
+          <input type="date" id="bookingDate" required>
+        </label>
+        <label>Time
+          <input type="time" id="bookingTime" required>
+        </label>
+        <button class="btn btn-primary" type="submit">Confirm Booking</button>
+      </form>
+      <p id="bookingResult" class="result"></p>
+    </section>
+
+    <section id="live-status" class="card">
+      <h2>2. Real-Time Charger Availability</h2>
+      <div id="chargerBoard" class="status-board"></div>
+    </section>
+
+    <section class="card split">
+      <div>
+        <h2>3. Smart Queue System</h2>
+        <p>If chargers are busy, join waiting list and auto-assign next free slot.</p>
+        <button id="joinQueueBtn" class="btn btn-secondary">Join Waiting Queue</button>
+        <div id="queueInfo" class="result"></div>
+      </div>
+      <div>
+        <h2>4. Charging Status Notification</h2>
+        <p id="occupancyInfo" class="result"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. AI Waiting Time Prediction</h2>
+      <form id="waitPredictForm" class="grid-form">
+        <label>Queue Length
+          <input id="queueLength" type="number" min="0" value="2" required>
+        </label>
+        <label>Avg Charging Duration (minutes)
+          <input id="avgDuration" type="number" min="5" value="35" required>
+        </label>
+        <button class="btn btn-primary" type="submit">Predict Wait</button>
+      </form>
+      <p id="waitPrediction" class="result"></p>
+    </section>
+
+    <section class="card split">
+      <div>
+        <h2>6. Battery-Based Charger Recommendation</h2>
+        <form id="recommendForm" class="grid-form">
+          <label>Battery %
+            <input id="batteryPct" type="number" min="0" max="100" value="28" required>
+          </label>
+          <label>Vehicle Type
+            <select id="vehicleType">
+              <option>Sedan EV</option>
+              <option>SUV EV</option>
+              <option>2-Wheeler EV</option>
+              <option>Commercial EV</option>
+            </select>
+          </label>
+          <label>Remaining Distance (km)
+            <input id="remainingDistance" type="number" min="0" value="56" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Get Recommendation</button>
+        </form>
+        <p id="recommendation" class="result"></p>
+      </div>
+      <div>
+        <h2>12. Emergency Low Battery Mode</h2>
+        <p>If battery is below 10%, priority booking is triggered automatically.</p>
+        <button id="emergencyBtn" class="btn emergency">Activate Emergency Mode</button>
+        <p id="emergencyResult" class="result"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>7. EV Route and Charging Planner</h2>
+      <form id="routeForm" class="grid-form">
+        <label>Starting Point
+          <input id="startPoint" type="text" placeholder="Current location" required>
+        </label>
+        <label>Destination
+          <input id="destination" type="text" placeholder="Enter destination" required>
+        </label>
+        <label>Current Range (km)
+          <input id="currentRange" type="number" min="20" value="120" required>
+        </label>
+        <button class="btn btn-primary" type="submit">Plan Route</button>
+      </form>
+      <div id="routePlan" class="result"></div>
+    </section>
+
+    <section class="card split">
+      <div>
+        <h2>8. Charging Cost Calculator</h2>
+        <form id="costForm" class="grid-form">
+          <label>Battery Capacity (kWh)
+            <input id="capacity" type="number" min="5" value="50" required>
+          </label>
+          <label>Charging Type
+            <select id="chargeType">
+              <option value="fast">Fast Charging</option>
+              <option value="normal">Normal Charging</option>
+            </select>
+          </label>
+          <button class="btn btn-primary" type="submit">Estimate Cost</button>
+        </form>
+        <p id="costResult" class="result"></p>
+      </div>
+      <div>
+        <h2>9. Smart Grid Load Balancing</h2>
+        <p id="loadBalance" class="result"></p>
+        <button id="refreshLoad" class="btn btn-secondary">Find Nearby Alternatives</button>
+      </div>
+    </section>
+
+    <section class="card split">
+      <div>
+        <h2>10. Notification System</h2>
+        <ul id="notificationList" class="notify-list"></ul>
+      </div>
+      <div>
+        <h2>11. EV User Dashboard</h2>
+        <div class="stats">
+          <div class="stat"><span>Sessions</span><strong id="dashSessions">0</strong></div>
+          <div class="stat"><span>Energy (kWh)</span><strong id="dashEnergy">0</strong></div>
+          <div class="stat"><span>Total Cost</span><strong id="dashCost">INR 0</strong></div>
+          <div class="stat"><span>CO2 Saved (kg)</span><strong id="dashCO2">0</strong></div>
+        </div>
+        <p class="result">History updates when you create bookings and estimates.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Ready to power your next trip? Book your EV charging slot now.</p>
+    <a class="btn btn-primary" href="#booking">Book Charging Slot</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
